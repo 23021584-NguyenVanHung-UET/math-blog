@@ -26,8 +26,6 @@ export default function PostCard({ post }: { post: PostMeta }) {
             year: "numeric",
           })}
         </time>
-        <span>·</span>
-        <span>{post.readingTime} phút đọc</span>
         <ViewCounterCompact slug={post.slug} />
       </div>
 
