@@ -1,0 +1,69 @@
+---
+title: "Toán học đằng sau Gradient Descent"
+date: "2026-06-07"
+category: "ai-ml"
+tags: ["gradient descent", "tối ưu hóa", "machine learning", "đạo hàm"]
+summary: "Hiểu sâu về nền tảng toán học của thuật toán Gradient Descent — từ đạo hàm đến hội tụ."
+difficulty: "trung bình"
+published: true
+---
+
+Gradient Descent là thuật toán tối ưu hóa cốt lõi trong Machine Learning. Hãy cùng tìm hiểu toán học đằng sau nó.
+
+## Ý tưởng cơ bản
+
+Cho hàm mất mát $L(\theta)$, ta muốn tìm $\theta^*$ sao cho:
+
+$$\theta^* = \arg\min_\theta L(\theta)$$
+
+Gradient Descent cập nhật tham số theo hướng ngược gradient:
+
+$$\theta_{t+1} = \theta_t - \eta \nabla L(\theta_t)$$
+
+trong đó $\eta > 0$ là **learning rate** (tốc độ học).
+
+## Tại sao đi ngược gradient?
+
+Khai triển Taylor bậc nhất của $L$ tại $\theta_t$:
+
+$$L(\theta_t + \Delta\theta) \approx L(\theta_t) + \nabla L(\theta_t)^T \Delta\theta$$
+
+Để $L$ giảm nhiều nhất, ta cần:
+
+$$\Delta\theta = -\eta \nabla L(\theta_t)$$
+
+Đây chính là hướng đi dốc nhất (steepest descent).
+
+## Điều kiện hội tụ
+
+Nếu $L$ là hàm lồi và có gradient Lipschitz liên tục với hằng số $M$:
+
+$$\|\nabla L(x) - \nabla L(y)\| \leq M\|x - y\|$$
+
+thì với learning rate $\eta \leq \frac{1}{M}$, Gradient Descent hội tụ với tốc độ:
+
+$$L(\theta_t) - L(\theta^*) \leq \frac{\|\theta_0 - \theta^*\|^2}{2\eta t}$$
+
+Tức là tốc độ hội tụ là $O(1/t)$.
+
+## Các biến thể
+
+### Stochastic Gradient Descent (SGD)
+
+Thay vì tính gradient trên toàn bộ dữ liệu, SGD chỉ dùng một mẫu ngẫu nhiên:
+
+$$\theta_{t+1} = \theta_t - \eta \nabla L_i(\theta_t)$$
+
+trong đó $i$ được chọn ngẫu nhiên. Ưu điểm: nhanh hơn nhiều cho bộ dữ liệu lớn.
+
+### Adam Optimizer
+
+Adam kết hợp momentum và adaptive learning rate:
+
+$$m_t = \beta_1 m_{t-1} + (1-\beta_1)\nabla L(\theta_t)$$
+
+$$v_t = \beta_2 v_{t-1} + (1-\beta_2)[\nabla L(\theta_t)]^2$$
+
+$$\theta_{t+1} = \theta_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}$$
+
+trong đó $\hat{m}_t$ và $\hat{v}_t$ là các ước lượng đã hiệu chỉnh bias.
