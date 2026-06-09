@@ -62,6 +62,17 @@ export default function AuthButton() {
               <p className="text-xs text-[var(--text-secondary)]">{user.email}</p>
             </div>
             <div className="my-1 border-t border-[var(--border)]" />
+            <a
+              href="/profile"
+              onClick={() => setMenuOpen(false)}
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text)]"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              Trang cá nhân
+            </a>
+            <div className="my-1 border-t border-[var(--border)]" />
             <button
               onClick={() => { signOut(auth); setMenuOpen(false); }}
               className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-red-500"

@@ -7,6 +7,7 @@ import ViewCounter from "@/components/ViewCounter";
 import ShareButton from "@/components/ShareButton";
 import RelatedPosts from "@/components/RelatedPosts";
 import Comments from "@/components/Comments";
+import BookmarkButton from "@/components/BookmarkButton";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -104,8 +105,15 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               <MdxContent source={content} />
             </article>
 
-            <div className="mt-10 border-t border-[var(--border)] pt-6">
+            <div className="mt-10 flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-6">
               <ShareButton title={frontmatter.title} slug={slug} />
+              <BookmarkButton
+                slug={slug}
+                title={frontmatter.title}
+                date={frontmatter.date}
+                category={frontmatter.category}
+                summary={frontmatter.summary}
+              />
             </div>
 
             <RelatedPosts posts={relatedPosts} />
