@@ -13,47 +13,55 @@ export function generateMetadata({ params }: { params: Promise<{ tag: string }> 
 }
 
 export default async function TagPage({ params }: { params: Promise<{ tag: string }> }) {
-  const { tag } = await params;
-  const decoded = decodeURIComponent(tag);
-  const posts = getPostsByTag(decoded);
-  const allTags = getAllTags();
+  const { tag }   = await params;
+  const decoded   = decodeURIComponent(tag);
+  const posts     = getPostsByTag(decoded);
+  const allTags   = getAllTags();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <Link
-        href="/"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-[var(--text-secondary)] transition-colors hover:text-indigo-600"
-      >
-        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-        </svg>
-        Về trang chủ
-      </Link>
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
 
-      <h1 className="mb-2 text-2xl font-bold text-[var(--text)]">#{decoded}</h1>
-      <p className="mb-8 text-[var(--text-secondary)]">{posts.length} bài viết</p>
+      {/* Breadcrumb */}
+      <nav className="mb-5 flex items-center gap-1.5 text-sm text-[var(--text-muted)]">
+        <Link href="/" className="hover:text-[var(--link)] transition-colors">Trang chủ</Link>
+        <span>/</span>
+        <span className="text-[var(--text-secondary)]">#{decoded}</span>
+      </nav>
 
-      <div className="mb-10 flex flex-wrap gap-2">
+      <div className="mb-6 flex items-baseline gap-3">
+        <h1 className="text-xl font-bold text-[var(--text)]">#{decoded}</h1>
+        <span className="text-sm text-[var(--text-muted)]">{posts.length} bài viết</span>
+      </div>
+
+      {/* All tags */}
+      <div className="mb-7 flex flex-wrap gap-1.5">
         {allTags.map((t) => (
           <Link
             key={t.tag}
             href={`/tags/${encodeURIComponent(t.tag)}`}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+            className={`rounded border px-2.5 py-0.5 text-xs transition-colors ${
               t.tag === decoded
-                ? "border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
-                : "border-[var(--border)] text-[var(--text-secondary)] hover:border-indigo-300 hover:text-indigo-600"
+                ? "border-[var(--link)] bg-[var(--accent-bg)] text-[var(--link)] font-medium"
+                : "border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--border-strong)] hover:text-[var(--link)]"
             }`}
           >
-            #{t.tag} <span className="text-xs opacity-60">({t.count})</span>
+            #{t.tag} <span className="opacity-60">({t.count})</span>
           </Link>
         ))}
       </div>
 
-      <div className="grid gap-5 md:grid-cols-2">
-        {posts.map((post) => (
-          <PostCard key={post.slug} post={post} />
-        ))}
-      </div>
+      {/* Posts */}
+      {posts.length === 0 ? (
+        <div className="rounded-lg border border-[var(--border)] bg-[var(--card-bg)] p-8 text-center text-sm text-[var(--text-secondary)]">
+          Không có bài viết nào với tag này.
+        </div>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2">
+          {posts.map((post) => (
+            <PostCard key={post.slug} post={post} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

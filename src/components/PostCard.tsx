@@ -3,30 +3,12 @@ import type { PostMeta } from "@/lib/types";
 import CategoryBadge from "./CategoryBadge";
 import { ViewCounterCompact } from "./ViewCounter";
 
-/* Space-separated RGB for use in rgb(var(--glow) / alpha) */
-const glowRgb: Record<string, string> = {
-  "bai-tap":   "16 185 129",
-  "ly-thuyet": "99 102 241",
-  "ai-ml":     "139 92 246",
-};
-
 export default function PostCard({ post }: { post: PostMeta }) {
-  const glow = glowRgb[post.category] ?? "99 102 241";
-
   return (
-    <article
-      className="post-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-6 transition-all duration-300 hover:-translate-y-1"
-      style={{ "--post-glow": glow } as React.CSSProperties}
-    >
-      {/* Shine sweep on hover */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-700 group-hover:translate-x-[300%]"
-      />
-
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+    <article className="flex flex-col rounded-lg border border-[var(--border)] bg-[var(--card-bg)] p-5 transition-colors hover:border-[var(--border-strong)]">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <CategoryBadge category={post.category} />
-        <div className="flex items-center gap-3 text-xs text-[var(--text-secondary)]">
+        <div className="flex items-center gap-3 text-xs text-[var(--text-muted)]">
           <time dateTime={post.date}>
             {new Date(post.date).toLocaleDateString("vi-VN", {
               day: "numeric",
@@ -38,13 +20,13 @@ export default function PostCard({ post }: { post: PostMeta }) {
         </div>
       </div>
 
-      <Link href={`/posts/${post.slug}`} className="flex-1">
-        <h2 className="mb-2.5 text-base font-semibold leading-snug text-[var(--text)] transition-colors duration-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+      <Link href={`/posts/${post.slug}`} className="mb-2 block">
+        <h2 className="font-semibold leading-snug text-[var(--text)] transition-colors hover:text-[var(--link)]">
           {post.title}
         </h2>
       </Link>
 
-      <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-[var(--text-secondary)]">
+      <p className="mb-4 flex-1 text-sm leading-relaxed text-[var(--text-secondary)] line-clamp-2">
         {post.summary}
       </p>
 
@@ -53,7 +35,7 @@ export default function PostCard({ post }: { post: PostMeta }) {
           <Link
             key={tag}
             href={`/tags/${encodeURIComponent(tag)}`}
-            className="rounded-md bg-[var(--bg-secondary)] px-2 py-0.5 text-xs text-[var(--text-secondary)] transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+            className="rounded px-1.5 py-0.5 text-xs text-[var(--text-muted)] transition-colors hover:text-[var(--link)] bg-[var(--bg-panel)]"
           >
             #{tag}
           </Link>

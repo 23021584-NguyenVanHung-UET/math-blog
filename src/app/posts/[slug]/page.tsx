@@ -15,7 +15,9 @@ export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
   const { slug } = await params;
   const { frontmatter } = getPostBySlug(slug);
   const url = `${SITE_URL}/posts/${slug}`;
@@ -40,6 +42,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+const CATEGORY_NAME: Record<string, string> = {
+  "bai-tap":  "Bài tập",
+  "ly-thuyet": "Lý thuyết",
+  "ai-ml":    "Ứng dụng",
+};
+
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const { frontmatter, content, readingTime } = getPostBySlug(slug);
@@ -49,27 +57,30 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     <>
       <ReadingProgress />
 
-      {/* Post header */}
-      <div className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
-        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-          <Link
-            href="/"
-            className="mb-6 inline-flex items-center gap-1.5 text-sm text-[var(--text-secondary)] transition-colors hover:text-indigo-600"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-            Về trang chủ
-          </Link>
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
 
-          <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--text-secondary)]">
+        {/* Breadcrumb */}
+        <nav className="flex items-center gap-1.5 py-4 text-sm text-[var(--text-muted)]">
+          <Link href="/" className="hover:text-[var(--link)] transition-colors">Trang chủ</Link>
+          <span>/</span>
+          <Link
+            href={`/category/${frontmatter.category}`}
+            className="hover:text-[var(--link)] transition-colors"
+          >
+            {CATEGORY_NAME[frontmatter.category] ?? frontmatter.category}
+          </Link>
+          <span>/</span>
+          <span className="text-[var(--text-secondary)] line-clamp-1">{frontmatter.title}</span>
+        </nav>
+
+        {/* Post header */}
+        <header className="mb-8 border-b border-[var(--border)] pb-6">
+          <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-[var(--text-muted)]">
             <CategoryBadge category={frontmatter.category} />
             <span>·</span>
             <time dateTime={frontmatter.date}>
               {new Date(frontmatter.date).toLocaleDateString("vi-VN", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
+                year: "numeric", month: "long", day: "numeric",
               })}
             </time>
             <span>·</span>
@@ -77,35 +88,33 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             <ViewCounter slug={slug} />
           </div>
 
-          <h1 className="mt-4 text-3xl font-extrabold leading-tight tracking-tight text-[var(--text)] sm:text-4xl">
+          <h1 className="mb-3 text-2xl font-bold leading-tight tracking-tight text-[var(--text)] sm:text-3xl">
             {frontmatter.title}
           </h1>
 
-          <p className="mt-3 max-w-2xl text-lg text-[var(--text-secondary)]">{frontmatter.summary}</p>
+          <p className="mb-4 text-[var(--text-secondary)]">{frontmatter.summary}</p>
 
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5">
             {frontmatter.tags.map((tag) => (
               <Link
                 key={tag}
                 href={`/tags/${encodeURIComponent(tag)}`}
-                className="rounded-full border border-[var(--border)] bg-[var(--card-bg)] px-3 py-1 text-xs text-[var(--text-secondary)] transition-colors hover:border-indigo-300 hover:text-indigo-600"
+                className="rounded border border-[var(--border)] bg-[var(--bg-panel)] px-2.5 py-0.5 text-xs text-[var(--text-secondary)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--link)]"
               >
                 #{tag}
               </Link>
             ))}
           </div>
-        </div>
-      </div>
+        </header>
 
-      {/* Post content */}
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <div className="lg:grid lg:grid-cols-[1fr_220px] lg:gap-12">
+        {/* Content + TOC */}
+        <div className="lg:grid lg:grid-cols-[1fr_210px] lg:gap-12">
           <div className="min-w-0">
             <article>
               <MdxContent source={content} />
             </article>
 
-            <div className="mt-10 flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-6">
+            <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-6">
               <ShareButton title={frontmatter.title} slug={slug} />
               <BookmarkButton
                 slug={slug}
@@ -119,6 +128,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             <RelatedPosts posts={relatedPosts} />
             <Comments slug={slug} />
           </div>
+
           <TableOfContents />
         </div>
       </div>

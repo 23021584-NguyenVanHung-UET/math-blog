@@ -6,86 +6,54 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ── Light mode ───────────────────────────── */
 :root {
-  --bg: #f8fafc;
-  --bg-secondary: #f1f5f9;
-  --text: #0f172a;
-  --text-secondary: #475569;
-  --border: #e2e8f0;
-  --card-bg: #ffffff;
-  --nav-bg: rgba(248, 250, 252, 0.92);
+  --bg:            #f5f7fc;
+  --bg-secondary:  #ffffff;
+  --bg-panel:      #eaecf7;
+  --text:          #1a2035;
+  --text-secondary:#4b5675;
+  --text-muted:    #8892a4;
+  --border:        #dde0ed;
+  --border-strong: #c4c9e0;
+  --card-bg:       #ffffff;
+  --nav-bg:        rgba(255,255,255,0.97);
+  --link:          #1e40af;
+  --link-hover:    #1d4ed8;
+  --accent-bg:     #eff3ff;
 }
 
+/* ── Dark mode ────────────────────────────── */
 .dark {
-  --bg: #06091a;
-  --bg-secondary: #0c1128;
-  --text: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --border: #1e2a40;
-  --card-bg: #0d1530;
-  --nav-bg: rgba(6, 9, 26, 0.92);
+  --bg:            #0c1526;
+  --bg-secondary:  #112038;
+  --bg-panel:      #18273f;
+  --text:          #dde6f5;
+  --text-secondary:#7a91b0;
+  --text-muted:    #4f6585;
+  --border:        #1e3050;
+  --border-strong: #2c4268;
+  --card-bg:       #112038;
+  --nav-bg:        rgba(12,21,38,0.97);
+  --link:          #60a5fa;
+  --link-hover:    #93c5fd;
+  --accent-bg:     #162250;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
+  font-size: 15px;
 }
 
 html { scroll-behavior: smooth; }
 
-/* ── Hero dot grid ─────────────────────────── */
-.hero-dot-grid {
-  background-image: radial-gradient(
-    circle,
-    rgba(99, 102, 241, 0.18) 1px,
-    transparent 1px
-  );
-  background-size: 30px 30px;
-}
-
-/* ── Floating math symbols ─────────────────── */
-@keyframes math-float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  40%       { transform: translateY(-22px) rotate(3deg); }
-  70%       { transform: translateY(-8px) rotate(-1deg); }
-}
-
-@keyframes math-drift {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  40%       { transform: translateY(18px) rotate(-3deg); }
-  70%       { transform: translateY(6px) rotate(1deg); }
-}
-
-/* ── Hero content entrance ─────────────────── */
-@keyframes hero-reveal {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes hero-reveal-slow {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Post card glow on hover ───────────────── */
-.post-card:hover {
-  box-shadow: 0 20px 40px -8px rgb(var(--post-glow, 99 102 241) / 0.18),
-              0 4px 12px -2px rgb(0 0 0 / 0.12);
-}
-
-/* ── Card hover shine ──────────────────────── */
-@keyframes shine {
-  from { transform: translateX(-100%) skewX(-12deg); }
-  to   { transform: translateX(200%) skewX(-12deg); }
-}
-
-/* ── Reading progress bar ──────────────────── */
+/* ── Reading progress ──────────────────────── */
 .reading-progress {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   height: 2px;
-  background: linear-gradient(90deg, #4f46e5, #818cf8);
+  background: var(--link);
   z-index: 100;
   transition: width 0.1s linear;
 }
@@ -95,16 +63,24 @@ html { scroll-behavior: smooth; }
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.3; }
 }
-
 .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+/* ── Fade up entrance ──────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fade-up 0.3s ease-out both; }
+
+/* ── Post row hover ────────────────────────── */
+.post-row:hover { background: var(--bg); }
 
 /* ── Dark KaTeX ────────────────────────────── */
 .dark .katex { color: #e2e8f0; }
 
-/* ── Reduced motion overrides ──────────────── */
+/* ── Reduced motion ────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .reading-progress { transition: none; }
   .pulse-dot        { animation: none; }
-  .hero-symbol      { animation: none !important; }
-  .hero-reveal      { animation: none !important; }
+  .fade-up          { animation: none; }
 }
