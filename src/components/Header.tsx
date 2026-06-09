@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import AuthButton from "./AuthButton";
+import { useAuth } from "@/context/AuthContext";
 
 const navItems = [
   { href: "/category/bai-tap", label: "Bài tập" },
@@ -15,6 +16,7 @@ const navItems = [
 
 export default function Header() {
   const pathname = usePathname();
+  const { isAdmin } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(false);
 
@@ -69,6 +71,19 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
+
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                pathname === "/admin"
+                  ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text)] hover:bg-[var(--bg-secondary)]"
+              }`}
+            >
+              Admin
+            </Link>
+          )}
 
           <div className="mx-2 h-4 w-px bg-[var(--border)]" />
 

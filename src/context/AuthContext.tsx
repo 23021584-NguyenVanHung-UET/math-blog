@@ -2,29 +2,57 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { doc, setDoc, getDoc, serverTimestamp, increment } from "firebase/firestore";
+import { auth, db, ADMIN_EMAIL } from "@/lib/firebase";
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  isAdmin: boolean;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null, loading: true });
+const AuthContext = createContext<AuthContextType>({ user: null, loading: true, isAdmin: false });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (u) => {
+    const unsubscribe = onAuthStateChanged(auth, async (u) => {
       setUser(u);
       setLoading(false);
+
+      if (u) {
+        try {
+          const ref = doc(db, "users", u.uid);
+          const snap = await getDoc(ref);
+          const isNew = !snap.exists();
+
+          await setDoc(
+            ref,
+            {
+              uid: u.uid,
+              displayName: u.displayName,
+              email: u.email,
+              photoURL: u.photoURL,
+              lastLogin: serverTimestamp(),
+              loginCount: increment(1),
+              ...(isNew && { firstLogin: serverTimestamp(), banned: false }),
+            },
+            { merge: true }
+          );
+        } catch {
+          // Firestore not yet enabled or network error — silently ignore
+        }
+      }
     });
     return unsubscribe;
   }, []);
 
+  const isAdmin = user?.email === ADMIN_EMAIL;
+
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );
