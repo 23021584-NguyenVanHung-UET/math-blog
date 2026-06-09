@@ -21,31 +21,25 @@ export async function generateMetadata(
   const { slug } = await params;
   const { frontmatter } = getPostBySlug(slug);
   const url = `${SITE_URL}/posts/${slug}`;
-
   return {
     title: `${frontmatter.title} | Math Blog`,
     description: frontmatter.summary,
     openGraph: {
-      title: frontmatter.title,
-      description: frontmatter.summary,
-      url,
-      siteName: "Math Blog",
-      type: "article",
-      publishedTime: frontmatter.date,
-      tags: frontmatter.tags,
+      title: frontmatter.title, description: frontmatter.summary,
+      url, siteName: "Math Blog", type: "article",
+      publishedTime: frontmatter.date, tags: frontmatter.tags,
     },
     twitter: {
       card: "summary_large_image",
-      title: frontmatter.title,
-      description: frontmatter.summary,
+      title: frontmatter.title, description: frontmatter.summary,
     },
   };
 }
 
 const CATEGORY_NAME: Record<string, string> = {
-  "bai-tap":  "Bài tập",
+  "bai-tap":   "Bài tập",
   "ly-thuyet": "Lý thuyết",
-  "ai-ml":    "Ứng dụng",
+  "ai-ml":     "Ứng dụng",
 };
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -57,7 +51,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     <>
       <ReadingProgress />
 
-      <div className="mx-auto max-w-5xl px-4 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 py-4 text-sm text-[var(--text-muted)]">
@@ -70,11 +64,11 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             {CATEGORY_NAME[frontmatter.category] ?? frontmatter.category}
           </Link>
           <span>/</span>
-          <span className="text-[var(--text-secondary)] line-clamp-1">{frontmatter.title}</span>
+          <span className="line-clamp-1 text-[var(--text-secondary)]">{frontmatter.title}</span>
         </nav>
 
-        {/* Post header */}
-        <header className="mb-8 border-b border-[var(--border)] pb-6">
+        {/* Post header glass */}
+        <header className="glass mb-8 rounded-2xl px-6 py-6 fade-up">
           <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-[var(--text-muted)]">
             <CategoryBadge category={frontmatter.category} />
             <span>·</span>
@@ -99,7 +93,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               <Link
                 key={tag}
                 href={`/tags/${encodeURIComponent(tag)}`}
-                className="rounded border border-[var(--border)] bg-[var(--bg-panel)] px-2.5 py-0.5 text-xs text-[var(--text-secondary)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--link)]"
+                className="rounded border border-[var(--border)] bg-white/5 px-2.5 py-0.5 text-xs text-[var(--text-secondary)] backdrop-blur-sm transition-colors hover:border-[var(--border-strong)] hover:text-[var(--link)]"
               >
                 #{tag}
               </Link>
@@ -108,13 +102,16 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </header>
 
         {/* Content + TOC */}
-        <div className="lg:grid lg:grid-cols-[1fr_210px] lg:gap-12">
+        <div className="lg:grid lg:grid-cols-[1fr_210px] lg:gap-10">
           <div className="min-w-0">
-            <article>
-              <MdxContent source={content} />
-            </article>
+            {/* Article glass panel */}
+            <div className="glass rounded-2xl px-6 py-8 sm:px-8">
+              <article>
+                <MdxContent source={content} />
+              </article>
+            </div>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-6">
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <ShareButton title={frontmatter.title} slug={slug} />
               <BookmarkButton
                 slug={slug}

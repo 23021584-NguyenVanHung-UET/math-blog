@@ -10,14 +10,15 @@ const navItems = [
   { href: "/category/bai-tap",   label: "Bài tập" },
   { href: "/category/ly-thuyet", label: "Lý thuyết" },
   { href: "/category/ai-ml",     label: "Ứng dụng" },
+  { href: "/search",             label: "Tìm kiếm" },
   { href: "/about",              label: "Giới thiệu" },
 ];
 
 export default function Header() {
-  const pathname  = usePathname();
+  const pathname    = usePathname();
   const { isAdmin } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dark, setDark] = useState(false);
+  const [dark, setDark]         = useState(false);
 
   useEffect(() => {
     setDark(document.documentElement.classList.contains("dark"));
@@ -31,46 +32,39 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--nav-bg)] backdrop-blur-sm">
-      <nav className="mx-auto flex max-w-5xl items-center gap-4 px-4 sm:px-6">
+    <header className="glass-nav sticky top-0 z-50">
+      <nav className="mx-auto flex max-w-4xl items-center gap-1 px-4 sm:px-6">
 
         {/* Logo */}
-        <Link href="/" className="mr-2 flex items-center gap-2 py-3 font-bold text-[var(--text)] hover:text-[var(--link)] transition-colors">
-          <span className="font-black text-[var(--link)]">∑</span>
-          Math Blog
+        <Link
+          href="/"
+          className="mr-3 flex items-center gap-2 py-3 font-bold text-[var(--text)] transition-opacity hover:opacity-80"
+        >
+          <span className="text-lg font-black text-[var(--link)]">∑</span>
+          <span className="text-sm tracking-tight">Math Blog</span>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden items-center gap-0.5 md:flex flex-1">
+        <div className="hidden flex-1 items-center md:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`rounded px-3 py-1.5 text-sm transition-colors ${
+              className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
                 pathname.startsWith(item.href)
-                  ? "font-medium text-[var(--link)]"
+                  ? "font-semibold text-[var(--link)]"
                   : "text-[var(--text-secondary)] hover:text-[var(--text)]"
               }`}
             >
               {item.label}
             </Link>
           ))}
-          <Link
-            href="/search"
-            className={`rounded px-3 py-1.5 text-sm transition-colors ${
-              pathname === "/search"
-                ? "font-medium text-[var(--link)]"
-                : "text-[var(--text-secondary)] hover:text-[var(--text)]"
-            }`}
-          >
-            Tìm kiếm
-          </Link>
           {isAdmin && (
             <Link
               href="/admin"
-              className={`rounded px-3 py-1.5 text-sm transition-colors ${
+              className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
                 pathname === "/admin"
-                  ? "font-medium text-[var(--link)]"
+                  ? "font-semibold text-[var(--link)]"
                   : "text-[var(--text-secondary)] hover:text-[var(--text)]"
               }`}
             >
@@ -79,11 +73,12 @@ export default function Header() {
           )}
         </div>
 
-        <div className="ml-auto flex items-center gap-1">
+        {/* Right controls */}
+        <div className="ml-auto flex items-center gap-0.5">
           <button
             onClick={toggleDark}
-            className="rounded p-1.5 text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
-            aria-label="Đổi giao diện sáng/tối"
+            className="rounded-lg p-2 text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
+            aria-label="Đổi giao diện"
           >
             {dark ? (
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -96,13 +91,13 @@ export default function Header() {
             )}
           </button>
 
-          <div className="hidden md:flex">
+          <div className="hidden md:block">
             <AuthButton />
           </div>
 
           {/* Mobile hamburger */}
           <button
-            className="rounded p-1.5 text-[var(--text-muted)] hover:text-[var(--text)] md:hidden"
+            className="rounded-lg p-2 text-[var(--text-muted)] hover:text-[var(--text)] md:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Mở menu"
           >
@@ -117,17 +112,17 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile dropdown */}
       {menuOpen && (
-        <div className="border-t border-[var(--border)] bg-[var(--nav-bg)] px-4 pb-3 md:hidden">
+        <div className="glass-nav border-t border-[var(--border)] px-4 pb-3 md:hidden">
           <div className="space-y-0.5 pt-2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`block rounded px-3 py-2 text-sm ${
+                className={`block rounded-lg px-3 py-2 text-sm ${
                   pathname.startsWith(item.href)
-                    ? "font-medium text-[var(--link)]"
+                    ? "font-semibold text-[var(--link)]"
                     : "text-[var(--text-secondary)]"
                 }`}
                 onClick={() => setMenuOpen(false)}
@@ -135,23 +130,16 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/search"
-              className="block rounded px-3 py-2 text-sm text-[var(--text-secondary)]"
-              onClick={() => setMenuOpen(false)}
-            >
-              Tìm kiếm
-            </Link>
             {isAdmin && (
               <Link
                 href="/admin"
-                className="block rounded px-3 py-2 text-sm text-[var(--text-secondary)]"
+                className="block rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)]"
                 onClick={() => setMenuOpen(false)}
               >
                 Admin
               </Link>
             )}
-            <div className="px-1 pt-2">
+            <div className="px-1 pt-1">
               <AuthButton />
             </div>
           </div>
