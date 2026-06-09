@@ -6,78 +6,62 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ── Light mode ───────────────────────────── */
+:root {
+  --bg:            #f8f9fc;
+  --bg-secondary:  #ffffff;
+  --bg-panel:      #f0f2f8;
+  --text:          #111827;
+  --text-secondary:#374151;
+  --text-muted:    #6b7280;
+  --border:        #e5e7eb;
+  --border-strong: #d1d5db;
+  --card-bg:       #ffffff;
+  --nav-bg:        rgba(255,255,255,0.96);
+  --link:          #1d4ed8;
+  --link-hover:    #1e40af;
+  --accent-bg:     #eff6ff;
+  --tag-bg:        #f3f4f6;
+}
+
+/* ── Dark mode ────────────────────────────── */
+.dark {
+  --bg:            #0f1117;
+  --bg-secondary:  #161b27;
+  --bg-panel:      #1c2333;
+  --text:          #e5eaf3;
+  --text-secondary:#94a3b8;
+  --text-muted:    #4b5563;
+  --border:        #1e2a3a;
+  --border-strong: #2d3d52;
+  --card-bg:       #161b27;
+  --nav-bg:        rgba(15,17,23,0.96);
+  --link:          #60a5fa;
+  --link-hover:    #93c5fd;
+  --accent-bg:     #172554;
+  --tag-bg:        #1c2333;
+}
+
 /* ── Base ─────────────────────────────────── */
-html {
-  /* fallback bg before canvas paints */
-  background: #060e24;
-}
-html:not(.dark) {
-  background: #c8dcf8;
-}
 body {
-  background: transparent;
+  background: var(--bg);
   color: var(--text);
   font-size: 15px;
 }
 html { scroll-behavior: smooth; }
 
-/* ── Light mode tokens ────────────────────── */
-:root {
-  --text:          #18284a;
-  --text-secondary:#3a5278;
-  --text-muted:    #608098;
-  --border:        rgba(100,140,210,0.18);
-  --border-strong: rgba(100,140,210,0.35);
-  --card-bg:       rgba(238,248,255,0.55);
-  --nav-bg:        rgba(225,242,255,0.72);
-  --bg-panel:      rgba(218,238,255,0.45);
-  --link:          #1a42c8;
-  --link-hover:    #1232a0;
-  --accent-bg:     rgba(190,220,255,0.5);
-  /* glass */
-  --glass-border:     rgba(255,255,255,0.68);
-  --glass-highlight:  rgba(255,255,255,0.92);
-  --glass-shadow:     rgba(20,40,120,0.09);
+/* ── Subtle dot grid (static, light only) ─── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(circle, rgba(99,102,241,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
 }
-
-/* ── Dark mode tokens ─────────────────────── */
-.dark {
-  --text:          #d0e6ff;
-  --text-secondary:#7090b8;
-  --text-muted:    #3a5878;
-  --border:        rgba(255,255,255,0.08);
-  --border-strong: rgba(255,255,255,0.16);
-  --card-bg:       rgba(10,22,58,0.58);
-  --nav-bg:        rgba(5,11,32,0.72);
-  --bg-panel:      rgba(8,18,50,0.45);
-  --link:          #6eb0ff;
-  --link-hover:    #9acfff;
-  --accent-bg:     rgba(28,55,145,0.45);
-  /* glass */
-  --glass-border:    rgba(255,255,255,0.09);
-  --glass-highlight: rgba(255,255,255,0.10);
-  --glass-shadow:    rgba(0,0,0,0.45);
-}
-
-/* ── Glass utility ────────────────────────── */
-.glass {
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  background: var(--card-bg);
-  border: 1px solid var(--glass-border);
-  box-shadow:
-    0 8px 32px var(--glass-shadow),
-    inset 0 1.5px 0 var(--glass-highlight);
-}
-
-.glass-nav {
-  backdrop-filter: blur(24px) saturate(200%);
-  -webkit-backdrop-filter: blur(24px) saturate(200%);
-  background: var(--nav-bg);
-  border-bottom: 1px solid var(--glass-border);
-  box-shadow:
-    0 2px 16px var(--glass-shadow),
-    inset 0 -1px 0 rgba(255,255,255,0.06);
+.dark body::before {
+  background-image: radial-gradient(circle, rgba(99,102,241,0.04) 1px, transparent 1px);
 }
 
 /* ── Reading progress ─────────────────────── */
@@ -99,13 +83,13 @@ html { scroll-behavior: smooth; }
 
 /* ── Fade up ──────────────────────────────── */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.fade-up { animation: fade-up 0.35s ease-out both; }
+.fade-up { animation: fade-up 0.3s ease-out both; }
 
 /* ── Dark KaTeX ───────────────────────────── */
-.dark .katex { color: #dce8ff; }
+.dark .katex { color: #e2e8f0; }
 
 /* ── Reduced motion ───────────────────────── */
 @media (prefers-reduced-motion: reduce) {

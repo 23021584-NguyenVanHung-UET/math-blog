@@ -29,10 +29,7 @@ export async function generateMetadata(
       url, siteName: "Math Blog", type: "article",
       publishedTime: frontmatter.date, tags: frontmatter.tags,
     },
-    twitter: {
-      card: "summary_large_image",
-      title: frontmatter.title, description: frontmatter.summary,
-    },
+    twitter: { card: "summary_large_image", title: frontmatter.title, description: frontmatter.summary },
   };
 }
 
@@ -51,15 +48,15 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     <>
       <ReadingProgress />
 
-      <div className="mx-auto max-w-4xl px-4 sm:px-6">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 py-4 text-sm text-[var(--text-muted)]">
-          <Link href="/" className="hover:text-[var(--link)] transition-colors">Trang chủ</Link>
+          <Link href="/" className="transition-colors hover:text-[var(--link)]">Trang chủ</Link>
           <span>/</span>
           <Link
             href={`/category/${frontmatter.category}`}
-            className="hover:text-[var(--link)] transition-colors"
+            className="transition-colors hover:text-[var(--link)]"
           >
             {CATEGORY_NAME[frontmatter.category] ?? frontmatter.category}
           </Link>
@@ -67,8 +64,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <span className="line-clamp-1 text-[var(--text-secondary)]">{frontmatter.title}</span>
         </nav>
 
-        {/* Post header glass */}
-        <header className="glass mb-8 rounded-2xl px-6 py-6 fade-up">
+        {/* Post header */}
+        <header className="mb-8 rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-6 py-6 shadow-sm">
           <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-[var(--text-muted)]">
             <CategoryBadge category={frontmatter.category} />
             <span>·</span>
@@ -93,7 +90,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               <Link
                 key={tag}
                 href={`/tags/${encodeURIComponent(tag)}`}
-                className="rounded border border-[var(--border)] bg-white/5 px-2.5 py-0.5 text-xs text-[var(--text-secondary)] backdrop-blur-sm transition-colors hover:border-[var(--border-strong)] hover:text-[var(--link)]"
+                className="rounded-md border border-[var(--border)] bg-[var(--tag-bg)] px-2.5 py-0.5 text-xs text-[var(--text-secondary)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--link)]"
               >
                 #{tag}
               </Link>
@@ -104,8 +101,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         {/* Content + TOC */}
         <div className="lg:grid lg:grid-cols-[1fr_210px] lg:gap-10">
           <div className="min-w-0">
-            {/* Article glass panel */}
-            <div className="glass rounded-2xl px-6 py-8 sm:px-8">
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-6 py-8 shadow-sm sm:px-8">
               <article>
                 <MdxContent source={content} />
               </article>

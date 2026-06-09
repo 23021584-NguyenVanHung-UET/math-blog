@@ -32,15 +32,19 @@ export default function Header() {
   }
 
   return (
-    <header className="glass-nav sticky top-0 z-50">
-      <nav className="mx-auto flex max-w-4xl items-center gap-1 px-4 sm:px-6">
+    <header
+      className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--nav-bg)] backdrop-blur-sm"
+    >
+      <nav className="mx-auto flex max-w-5xl items-center gap-1 px-4 sm:px-6">
 
         {/* Logo */}
         <Link
           href="/"
-          className="mr-3 flex items-center gap-2 py-3 font-bold text-[var(--text)] transition-opacity hover:opacity-80"
+          className="mr-4 flex items-center gap-2 py-3.5 font-bold text-[var(--text)] transition-opacity hover:opacity-75"
         >
-          <span className="text-lg font-black text-[var(--link)]">∑</span>
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--link)] text-sm font-black text-white">
+            ∑
+          </span>
           <span className="text-sm tracking-tight">Math Blog</span>
         </Link>
 
@@ -50,10 +54,10 @@ export default function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
+              className={`rounded-md px-3 py-1.5 text-sm transition-colors ${
                 pathname.startsWith(item.href)
-                  ? "font-semibold text-[var(--link)]"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text)]"
+                  ? "bg-[var(--accent-bg)] font-medium text-[var(--link)]"
+                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-panel)] hover:text-[var(--text)]"
               }`}
             >
               {item.label}
@@ -62,10 +66,10 @@ export default function Header() {
           {isAdmin && (
             <Link
               href="/admin"
-              className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
+              className={`rounded-md px-3 py-1.5 text-sm transition-colors ${
                 pathname === "/admin"
-                  ? "font-semibold text-[var(--link)]"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text)]"
+                  ? "bg-[var(--accent-bg)] font-medium text-[var(--link)]"
+                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-panel)] hover:text-[var(--text)]"
               }`}
             >
               Admin
@@ -74,10 +78,10 @@ export default function Header() {
         </div>
 
         {/* Right controls */}
-        <div className="ml-auto flex items-center gap-0.5">
+        <div className="ml-auto flex items-center gap-1">
           <button
             onClick={toggleDark}
-            className="rounded-lg p-2 text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
+            className="rounded-md p-1.5 text-[var(--text-muted)] transition-colors hover:bg-[var(--bg-panel)] hover:text-[var(--text)]"
             aria-label="Đổi giao diện"
           >
             {dark ? (
@@ -97,7 +101,7 @@ export default function Header() {
 
           {/* Mobile hamburger */}
           <button
-            className="rounded-lg p-2 text-[var(--text-muted)] hover:text-[var(--text)] md:hidden"
+            className="rounded-md p-1.5 text-[var(--text-muted)] hover:bg-[var(--bg-panel)] md:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Mở menu"
           >
@@ -114,16 +118,16 @@ export default function Header() {
 
       {/* Mobile dropdown */}
       {menuOpen && (
-        <div className="glass-nav border-t border-[var(--border)] px-4 pb-3 md:hidden">
+        <div className="border-t border-[var(--border)] bg-[var(--nav-bg)] px-4 pb-3 md:hidden">
           <div className="space-y-0.5 pt-2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`block rounded-lg px-3 py-2 text-sm ${
+                className={`block rounded-md px-3 py-2 text-sm ${
                   pathname.startsWith(item.href)
-                    ? "font-semibold text-[var(--link)]"
-                    : "text-[var(--text-secondary)]"
+                    ? "bg-[var(--accent-bg)] font-medium text-[var(--link)]"
+                    : "text-[var(--text-secondary)] hover:bg-[var(--bg-panel)]"
                 }`}
                 onClick={() => setMenuOpen(false)}
               >
@@ -133,13 +137,13 @@ export default function Header() {
             {isAdmin && (
               <Link
                 href="/admin"
-                className="block rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)]"
+                className="block rounded-md px-3 py-2 text-sm text-[var(--text-secondary)]"
                 onClick={() => setMenuOpen(false)}
               >
                 Admin
               </Link>
             )}
-            <div className="px-1 pt-1">
+            <div className="px-1 pt-2">
               <AuthButton />
             </div>
           </div>

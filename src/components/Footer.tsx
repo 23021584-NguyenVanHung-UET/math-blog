@@ -2,12 +2,12 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="glass mt-16 border-t border-[var(--glass-border)]">
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
-        <div className="grid gap-6 sm:grid-cols-3 text-sm">
+    <footer className="mt-16 border-t border-[var(--border)] bg-[var(--bg-secondary)]">
+      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+        <div className="grid gap-8 text-sm sm:grid-cols-3">
           <div>
-            <div className="mb-2 flex items-center gap-1.5 font-bold text-[var(--text)]">
-              <span className="font-black text-[var(--link)]">∑</span>
+            <div className="mb-2.5 flex items-center gap-2 font-bold text-[var(--text)]">
+              <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[var(--link)] text-xs font-black text-white">∑</span>
               Math Blog
             </div>
             <p className="text-xs leading-relaxed text-[var(--text-secondary)]">
@@ -16,10 +16,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
-              Chủ đề
-            </h4>
-            <ul className="space-y-1.5">
+            <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Chủ đề</h4>
+            <ul className="space-y-2">
               {[
                 { href: "/category/bai-tap",   label: "Bài tập" },
                 { href: "/category/ly-thuyet", label: "Lý thuyết" },
@@ -35,10 +33,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
-              Liên kết
-            </h4>
-            <ul className="space-y-1.5">
+            <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Liên kết</h4>
+            <ul className="space-y-2">
               {[
                 { href: "/about",  label: "Giới thiệu", external: false },
                 { href: "/search", label: "Tìm kiếm",   external: false },
@@ -59,7 +55,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-6 border-t border-[var(--border)] pt-4 text-center text-xs text-[var(--text-muted)]">
+        <div className="mt-8 border-t border-[var(--border)] pt-5 text-center text-xs text-[var(--text-muted)]">
           &copy; {new Date().getFullYear()} Math Blog
         </div>
       </div>

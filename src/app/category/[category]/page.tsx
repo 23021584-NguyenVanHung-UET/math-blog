@@ -2,10 +2,10 @@ import { getAllCategories, getPostsByCategory } from "@/lib/posts";
 import PostCard from "@/components/PostCard";
 import Link from "next/link";
 
-const categoryInfo: Record<string, { name: string; desc: string; color: string }> = {
-  "bai-tap":   { name: "Bài tập",   desc: "Giải đề, bài tập có lời giải từng bước", color: "text-blue-400" },
-  "ly-thuyet": { name: "Lý thuyết", desc: "Định lý, chứng minh, khái niệm nền tảng", color: "text-violet-400" },
-  "ai-ml":     { name: "Ứng dụng",  desc: "Toán học trong thực tiễn và kỹ thuật",    color: "text-emerald-400" },
+const categoryInfo: Record<string, { name: string; desc: string; color: string; dot: string }> = {
+  "bai-tap":   { name: "Bài tập",   desc: "Giải đề, lời giải từng bước chi tiết",       color: "text-blue-600 dark:text-blue-400",    dot: "bg-blue-500" },
+  "ly-thuyet": { name: "Lý thuyết", desc: "Định lý, chứng minh, khái niệm nền tảng",   color: "text-violet-600 dark:text-violet-400", dot: "bg-violet-500" },
+  "ai-ml":     { name: "Ứng dụng",  desc: "Toán học trong thực tiễn và kỹ thuật",      color: "text-emerald-600 dark:text-emerald-400", dot: "bg-emerald-500" },
 };
 
 export function generateStaticParams() {
@@ -24,28 +24,31 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const info  = categoryInfo[category];
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
 
       {/* Breadcrumb */}
       <nav className="mb-5 flex items-center gap-1.5 text-sm text-[var(--text-muted)]">
-        <Link href="/" className="hover:text-[var(--link)] transition-colors">Trang chủ</Link>
+        <Link href="/" className="transition-colors hover:text-[var(--link)]">Trang chủ</Link>
         <span>/</span>
-        <span className={`font-medium ${info?.color ?? ""}`}>{info?.name ?? category}</span>
+        <span className="text-[var(--text-secondary)]">{info?.name ?? category}</span>
       </nav>
 
-      {/* Header glass */}
-      <div className="glass mb-7 rounded-2xl px-6 py-5 fade-up">
-        <h1 className={`text-xl font-bold ${info?.color ?? "text-[var(--text)]"}`}>
-          {info?.name ?? category}
-        </h1>
-        {info?.desc && (
-          <p className="mt-1 text-sm text-[var(--text-secondary)]">{info.desc}</p>
-        )}
-        <p className="mt-2 text-xs text-[var(--text-muted)]">{posts.length} bài viết</p>
+      {/* Header */}
+      <div className="mb-7 flex items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-5 py-4 shadow-sm">
+        {info && <span className={`h-3 w-3 rounded-full flex-shrink-0 ${info.dot}`} />}
+        <div>
+          <h1 className={`text-lg font-bold ${info?.color ?? "text-[var(--text)]"}`}>
+            {info?.name ?? category}
+          </h1>
+          {info?.desc && (
+            <p className="text-sm text-[var(--text-secondary)]">{info.desc}</p>
+          )}
+        </div>
+        <span className="ml-auto text-sm text-[var(--text-muted)]">{posts.length} bài viết</span>
       </div>
 
       {posts.length === 0 ? (
-        <div className="glass rounded-2xl p-10 text-center text-sm text-[var(--text-secondary)]">
+        <div className="rounded-xl border border-[var(--border)] bg-[var(--card-bg)] p-10 text-center text-sm text-[var(--text-secondary)]">
           Chưa có bài viết nào trong chủ đề này.
         </div>
       ) : (
