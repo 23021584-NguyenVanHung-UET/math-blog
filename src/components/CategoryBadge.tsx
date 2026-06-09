@@ -12,9 +12,9 @@ const categoryConfig: Record<string, { name: string; dot: string; className: str
     className: "bg-violet-50 text-violet-700 dark:bg-violet-900/20 dark:text-violet-400",
   },
   "ai-ml": {
-    name: "AI & ML",
-    dot: "bg-orange-500",
-    className: "bg-orange-50 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400",
+    name: "Ứng dụng",
+    dot: "bg-violet-500",
+    className: "bg-violet-50 text-violet-700 dark:bg-violet-900/20 dark:text-violet-400",
   },
 };
 
