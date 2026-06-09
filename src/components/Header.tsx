@@ -11,7 +11,7 @@ const navItems = [
   { href: "/category/ly-thuyet", label: "Lý thuyết" },
   { href: "/category/ai-ml", label: "AI & ML" },
   { href: "/about", label: "Giới thiệu" },
-  { href: "/search", label: "🔍" },
+  { href: "/search", label: "Tìm kiếm" },
 ];
 
 export default function Header() {
@@ -19,9 +19,13 @@ export default function Header() {
   const { isAdmin } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     setDark(document.documentElement.classList.contains("dark"));
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   function toggleDark() {
@@ -32,13 +36,17 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-md">
+    <header
+      className={`sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--nav-bg)] backdrop-blur-md transition-shadow duration-200 ${
+        scrolled ? "shadow-sm shadow-slate-200/50 dark:shadow-slate-950/50" : ""
+      }`}
+    >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link href="/" className="group flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold text-white shadow-sm shadow-indigo-600/30 transition-shadow group-hover:shadow-md group-hover:shadow-indigo-600/40">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0f172a] text-sm font-black text-white shadow-sm transition-transform group-hover:scale-105 dark:bg-indigo-600">
             ∑
           </span>
-          <span className="text-base font-bold text-[var(--text)]">Math Blog</span>
+          <span className="text-base font-bold tracking-tight text-[var(--text)]">Math Blog</span>
         </Link>
 
         {/* Mobile toggle */}
@@ -57,15 +65,15 @@ export default function Header() {
         </button>
 
         {/* Desktop nav */}
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-0.5 md:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+              className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
                 pathname === item.href
-                  ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text)] hover:bg-[var(--bg-secondary)]"
+                  ? "bg-indigo-50 font-medium text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300"
+                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text)]"
               }`}
             >
               {item.label}
@@ -75,10 +83,10 @@ export default function Header() {
           {isAdmin && (
             <Link
               href="/admin"
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+              className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
                 pathname === "/admin"
-                  ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text)] hover:bg-[var(--bg-secondary)]"
+                  ? "bg-indigo-50 font-medium text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300"
+                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text)]"
               }`}
             >
               Admin
@@ -93,7 +101,7 @@ export default function Header() {
 
           <button
             onClick={toggleDark}
-            className="rounded-lg p-1.5 text-[var(--text-secondary)] transition-colors hover:text-[var(--text)] hover:bg-[var(--bg-secondary)]"
+            className="rounded-lg p-1.5 text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-secondary)] hover:text-[var(--text)]"
             aria-label="Toggle dark mode"
           >
             {dark ? (
@@ -111,15 +119,15 @@ export default function Header() {
 
       {/* Mobile nav */}
       {menuOpen && (
-        <div className="border-t border-[var(--border)] px-4 pb-3 md:hidden">
+        <div className="border-t border-[var(--border)] px-4 pb-4 md:hidden">
           <div className="space-y-0.5 pt-2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`block rounded-lg px-3 py-2 text-sm font-medium ${
+                className={`block rounded-lg px-3 py-2 text-sm ${
                   pathname === item.href
-                    ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
+                    ? "bg-indigo-50 font-medium text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300"
                     : "text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
                 }`}
                 onClick={() => setMenuOpen(false)}
@@ -127,13 +135,22 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="block rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
+                onClick={() => setMenuOpen(false)}
+              >
+                Admin
+              </Link>
+            )}
             <button
               onClick={toggleDark}
-              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
             >
-              {dark ? "☀️ Chế độ sáng" : "🌙 Chế độ tối"}
+              {dark ? "Chế độ sáng" : "Chế độ tối"}
             </button>
-            <div className="px-3 py-2">
+            <div className="px-1 py-2">
               <AuthButton />
             </div>
           </div>

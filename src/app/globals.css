@@ -8,20 +8,22 @@
 
 :root {
   --bg: #ffffff;
-  --bg-secondary: #f9fafb;
-  --text: #111827;
-  --text-secondary: #6b7280;
-  --border: #e5e7eb;
+  --bg-secondary: #f8fafc;
+  --text: #0f172a;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
   --card-bg: #ffffff;
+  --nav-bg: rgba(255,255,255,0.92);
 }
 
 .dark {
-  --bg: #0b1120;
-  --bg-secondary: #111827;
-  --text: #f9fafb;
-  --text-secondary: #9ca3af;
-  --border: #1f2937;
-  --card-bg: #1f2937;
+  --bg: #080e1a;
+  --bg-secondary: #0f172a;
+  --text: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border: #1e293b;
+  --card-bg: #0f172a;
+  --nav-bg: rgba(8,14,26,0.92);
 }
 
 body {
@@ -37,8 +39,8 @@ html {
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #4f46e5, #7c3aed, #ec4899);
+  height: 2px;
+  background: #4f46e5;
   z-index: 100;
   transition: width 0.1s linear;
 }
@@ -52,4 +54,9 @@ html {
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
-.dark .katex { color: #e5e7eb; }
+.dark .katex { color: #e2e8f0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reading-progress { transition: none; }
+  .pulse-dot { animation: none; }
+}

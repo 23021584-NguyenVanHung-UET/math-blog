@@ -3,73 +3,61 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--bg-secondary)]">
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="grid gap-8 sm:grid-cols-3">
-          <div>
-            <div className="mb-3 flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold text-white">
+          <div className="sm:col-span-1">
+            <Link href="/" className="mb-3 inline-flex items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0f172a] text-sm font-black text-white dark:bg-indigo-600">
                 ∑
               </span>
-              <span className="text-lg font-bold text-[var(--text)]">Math Blog</span>
-            </div>
+              <span className="text-base font-bold tracking-tight text-[var(--text)]">Math Blog</span>
+            </Link>
             <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
-              Chia sẻ kiến thức toán học từ cơ bản đến nâng cao, ứng dụng trong AI & Machine Learning.
+              Kiến thức toán học từ cơ bản đến nâng cao, ứng dụng trong AI & Machine Learning.
             </p>
           </div>
 
           <div>
-            <h4 className="mb-3 text-sm font-semibold text-[var(--text)]">Chủ đề</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/category/bai-tap" className="text-[var(--text-secondary)] transition-colors hover:text-indigo-600">
-                  📝 Bài tập
-                </Link>
-              </li>
-              <li>
-                <Link href="/category/ly-thuyet" className="text-[var(--text-secondary)] transition-colors hover:text-indigo-600">
-                  📐 Lý thuyết
-                </Link>
-              </li>
-              <li>
-                <Link href="/category/ai-ml" className="text-[var(--text-secondary)] transition-colors hover:text-indigo-600">
-                  🤖 AI & ML
-                </Link>
-              </li>
+            <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-[var(--text-secondary)]">Chủ đề</h4>
+            <ul className="space-y-2.5 text-sm">
+              {[
+                { href: "/category/bai-tap", label: "Bài tập" },
+                { href: "/category/ly-thuyet", label: "Lý thuyết" },
+                { href: "/category/ai-ml", label: "AI & ML" },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="text-[var(--text-secondary)] transition-colors hover:text-indigo-600 dark:hover:text-indigo-400">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="mb-3 text-sm font-semibold text-[var(--text)]">Liên kết</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/about" className="text-[var(--text-secondary)] transition-colors hover:text-indigo-600">
-                  Giới thiệu
-                </Link>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/23021584-NguyenVanHung-UET"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[var(--text-secondary)] transition-colors hover:text-indigo-600"
-                >
-                  GitHub
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/rss.xml"
-                  className="text-[var(--text-secondary)] transition-colors hover:text-indigo-600"
-                >
-                  RSS Feed
-                </a>
-              </li>
+            <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-[var(--text-secondary)]">Liên kết</h4>
+            <ul className="space-y-2.5 text-sm">
+              {[
+                { href: "/about", label: "Giới thiệu", external: false },
+                { href: "https://github.com/23021584-NguyenVanHung-UET", label: "GitHub", external: true },
+                { href: "/rss.xml", label: "RSS Feed", external: false },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="text-[var(--text-secondary)] transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <div className="mt-8 border-t border-[var(--border)] pt-6 text-center text-sm text-[var(--text-secondary)]">
-          &copy; {new Date().getFullYear()} Math Blog. Tất cả nội dung được chia sẻ miễn phí.
+        <div className="mt-10 border-t border-[var(--border)] pt-6 text-center text-xs text-[var(--text-secondary)]">
+          &copy; {new Date().getFullYear()} Math Blog — Tất cả nội dung được chia sẻ miễn phí.
         </div>
       </div>
     </footer>
