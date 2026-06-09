@@ -1,28 +1,48 @@
-import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import { getAllPosts, getPostBySlug, getRelatedPosts, SITE_URL } from "@/lib/posts";
 import CategoryBadge from "@/components/CategoryBadge";
 import MdxContent from "@/components/MdxContent";
 import TableOfContents from "@/components/TableOfContents";
 import ReadingProgress from "@/components/ReadingProgress";
 import ViewCounter from "@/components/ViewCounter";
+import ShareButton from "@/components/ShareButton";
+import RelatedPosts from "@/components/RelatedPosts";
+import Comments from "@/components/Comments";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
-export function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  return params.then(({ slug }) => {
-    const { frontmatter } = getPostBySlug(slug);
-    return {
-      title: `${frontmatter.title} | Math Blog`,
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const { frontmatter } = getPostBySlug(slug);
+  const url = `${SITE_URL}/posts/${slug}`;
+
+  return {
+    title: `${frontmatter.title} | Math Blog`,
+    description: frontmatter.summary,
+    openGraph: {
+      title: frontmatter.title,
       description: frontmatter.summary,
-    };
-  });
+      url,
+      siteName: "Math Blog",
+      type: "article",
+      publishedTime: frontmatter.date,
+      tags: frontmatter.tags,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: frontmatter.title,
+      description: frontmatter.summary,
+    },
+  };
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const { frontmatter, content, readingTime } = getPostBySlug(slug);
+  const relatedPosts = getRelatedPosts(slug);
 
   return (
     <>
@@ -64,12 +84,13 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
           <div className="mt-4 flex flex-wrap gap-2">
             {frontmatter.tags.map((tag) => (
-              <span
+              <Link
                 key={tag}
-                className="rounded-full border border-[var(--border)] bg-[var(--card-bg)] px-3 py-1 text-xs text-[var(--text-secondary)]"
+                href={`/tags/${encodeURIComponent(tag)}`}
+                className="rounded-full border border-[var(--border)] bg-[var(--card-bg)] px-3 py-1 text-xs text-[var(--text-secondary)] transition-colors hover:border-indigo-300 hover:text-indigo-600"
               >
                 #{tag}
-              </span>
+              </Link>
             ))}
           </div>
         </div>
@@ -78,9 +99,18 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       {/* Post content */}
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="lg:grid lg:grid-cols-[1fr_220px] lg:gap-12">
-          <article className="min-w-0">
-            <MdxContent source={content} />
-          </article>
+          <div className="min-w-0">
+            <article>
+              <MdxContent source={content} />
+            </article>
+
+            <div className="mt-10 border-t border-[var(--border)] pt-6">
+              <ShareButton title={frontmatter.title} slug={slug} />
+            </div>
+
+            <RelatedPosts posts={relatedPosts} />
+            <Comments />
+          </div>
           <TableOfContents />
         </div>
       </div>

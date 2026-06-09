@@ -9,6 +9,7 @@ const navItems = [
   { href: "/category/ly-thuyet", label: "Lý thuyết" },
   { href: "/category/ai-ml", label: "AI & ML" },
   { href: "/about", label: "Giới thiệu" },
+  { href: "/search", label: "🔍" },
 ];
 
 export default function Header() {

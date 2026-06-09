@@ -1,0 +1,39 @@
+[
+  {
+    "slug": "bai-tap-dao-ham-co-ban",
+    "title": "Bài tập đạo hàm từ cơ bản đến nâng cao",
+    "summary": "Tổng hợp các bài tập đạo hàm thường gặp kèm lời giải chi tiết từng bước.",
+    "category": "bai-tap",
+    "tags": [
+      "đạo hàm",
+      "giải tích",
+      "bài tập"
+    ],
+    "date": "2026-06-08"
+  },
+  {
+    "slug": "chung-minh-bat-dang-thuc-cauchy-schwarz",
+    "title": "Chứng minh bất đẳng thức Cauchy-Schwarz 3 cách",
+    "summary": "Ba cách chứng minh kinh điển cho bất đẳng thức Cauchy-Schwarz, từ đại số đơn giản đến hình học vector.",
+    "category": "ly-thuyet",
+    "tags": [
+      "bất đẳng thức",
+      "đại số tuyến tính",
+      "chứng minh"
+    ],
+    "date": "2026-06-09"
+  },
+  {
+    "slug": "gradient-descent-toan-hoc-dang-sau",
+    "title": "Toán học đằng sau Gradient Descent",
+    "summary": "Hiểu sâu về nền tảng toán học của thuật toán Gradient Descent — từ đạo hàm đến hội tụ.",
+    "category": "ai-ml",
+    "tags": [
+      "gradient descent",
+      "tối ưu hóa",
+      "machine learning",
+      "đạo hàm"
+    ],
+    "date": "2026-06-07"
+  }
+]

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SITE_URL } from "@/lib/posts";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,8 +16,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Math Blog — Toán học & AI",
+  title: {
+    default: "Math Blog — Toán học & AI",
+    template: "%s | Math Blog",
+  },
   description: "Blog toán học cá nhân — Bài tập, Lý thuyết, và ứng dụng AI & ML",
+  metadataBase: new URL(SITE_URL),
+  openGraph: {
+    title: "Math Blog — Toán học & AI",
+    description: "Blog toán học — Bài tập, Lý thuyết, và ứng dụng AI & ML",
+    url: SITE_URL,
+    siteName: "Math Blog",
+    type: "website",
+    locale: "vi_VN",
+  },
+  twitter: {
+    card: "summary",
+    title: "Math Blog — Toán học & AI",
+    description: "Blog toán học — Bài tập, Lý thuyết, và ứng dụng AI & ML",
+  },
+  alternates: {
+    types: { "application/rss+xml": "/rss.xml" },
+  },
 };
 
 export default function RootLayout({
@@ -40,10 +61,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                const theme = localStorage.getItem('theme');
-                if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                var t = localStorage.getItem('theme');
+                if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches))
                   document.documentElement.classList.add('dark');
-                }
               })();
             `,
           }}

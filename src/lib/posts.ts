@@ -52,6 +52,44 @@ export function getPostsByCategory(category: string): PostMeta[] {
   return getAllPosts().filter((post) => post.category === category);
 }
 
+export function getPostsByTag(tag: string): PostMeta[] {
+  return getAllPosts().filter((post) => post.tags.includes(tag));
+}
+
+export function getAllTags(): { tag: string; count: number }[] {
+  const tagMap = new Map<string, number>();
+  for (const post of getAllPosts()) {
+    for (const tag of post.tags) {
+      tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+    }
+  }
+  return Array.from(tagMap.entries())
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count);
+}
+
+export function getRelatedPosts(currentSlug: string, limit = 3): PostMeta[] {
+  const current = getAllPosts().find((p) => p.slug === currentSlug);
+  if (!current) return [];
+
+  const others = getAllPosts().filter((p) => p.slug !== currentSlug);
+
+  const scored = others.map((post) => {
+    let score = 0;
+    if (post.category === current.category) score += 3;
+    for (const tag of post.tags) {
+      if (current.tags.includes(tag)) score += 1;
+    }
+    return { post, score };
+  });
+
+  return scored
+    .filter((s) => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((s) => s.post);
+}
+
 export function getAllCategories() {
   return [
     { slug: "bai-tap", name: "Bài tập", color: "emerald" },
@@ -59,3 +97,5 @@ export function getAllCategories() {
     { slug: "ai-ml", name: "AI & ML", color: "orange" },
   ] as const;
 }
+
+export const SITE_URL = "https://hunguetdomain.dpdns.org";

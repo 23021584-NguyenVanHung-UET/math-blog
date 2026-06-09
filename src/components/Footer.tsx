@@ -56,6 +56,14 @@ export default function Footer() {
                   GitHub
                 </a>
               </li>
+              <li>
+                <a
+                  href="/rss.xml"
+                  className="text-[var(--text-secondary)] transition-colors hover:text-indigo-600"
+                >
+                  RSS Feed
+                </a>
+              </li>
             </ul>
           </div>
         </div>
