@@ -18,4 +18,4 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const db = getFirestore(app);
 
-export const ADMIN_EMAIL = "hungvanvip@gmail.com";
+export const ADMIN_EMAILS = ["hungvanvip@gmail.com", "23021584@vnu.edu.vn"];

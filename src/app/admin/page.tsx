@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { collection, getDocs, doc, updateDoc, orderBy, query } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db, ADMIN_EMAILS } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import Link from "next/link";
@@ -175,8 +175,8 @@ export default function AdminPage() {
                     )}
                   </td>
                   <td className="px-4 py-3 text-center">
-                    {u.email === user.email ? (
-                      <span className="text-xs text-[var(--text-secondary)]">Bạn</span>
+                    {u.email && ADMIN_EMAILS.includes(u.email) ? (
+                      <span className="text-xs text-[var(--text-secondary)]">Admin</span>
                     ) : (
                       <button
                         onClick={() => toggleBan(u.uid, u.banned)}

@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { doc, setDoc, getDoc, serverTimestamp, increment } from "firebase/firestore";
-import { auth, db, ADMIN_EMAIL } from "@/lib/firebase";
+import { auth, db, ADMIN_EMAILS } from "@/lib/firebase";
 
 interface AuthContextType {
   user: User | null;
@@ -49,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return unsubscribe;
   }, []);
 
-  const isAdmin = user?.email === ADMIN_EMAIL;
+  const isAdmin = !!user?.email && ADMIN_EMAILS.includes(user.email);
 
   return (
     <AuthContext.Provider value={{ user, loading, isAdmin }}>
