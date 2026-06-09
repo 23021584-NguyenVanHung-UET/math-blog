@@ -109,7 +109,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             </div>
 
             <RelatedPosts posts={relatedPosts} />
-            <Comments />
+            <Comments slug={slug} />
           </div>
           <TableOfContents />
         </div>
