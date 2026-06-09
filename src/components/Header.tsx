@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import AuthButton from "./AuthButton";
 
 const navItems = [
   { href: "/category/bai-tap", label: "Bài tập" },
@@ -71,6 +72,10 @@ export default function Header() {
 
           <div className="mx-2 h-4 w-px bg-[var(--border)]" />
 
+          <AuthButton />
+
+          <div className="mx-1 h-4 w-px bg-[var(--border)]" />
+
           <button
             onClick={toggleDark}
             className="rounded-lg p-1.5 text-[var(--text-secondary)] transition-colors hover:text-[var(--text)] hover:bg-[var(--bg-secondary)]"
@@ -113,6 +118,9 @@ export default function Header() {
             >
               {dark ? "☀️ Chế độ sáng" : "🌙 Chế độ tối"}
             </button>
+            <div className="px-3 py-2">
+              <AuthButton />
+            </div>
           </div>
         </div>
       )}
